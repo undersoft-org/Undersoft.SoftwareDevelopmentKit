@@ -1,0 +1,23 @@
+using System.Text.Json;
+using System.Text.Json.Serialization;
+
+namespace System
+{
+    public sealed class DetailDataConverter : JsonConverter<byte[]>
+    {
+        public DetailDataConverter() { }
+
+        public sealed override byte[] Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
+        {
+            if(reader.TryGetBytesFromBase64(out byte[] bytes))
+                return bytes;
+            return null;
+        }
+
+        public sealed override void Write(Utf8JsonWriter writer, byte[] value, JsonSerializerOptions options)
+        {
+            if(value != null)
+                writer.WriteBase64StringValue(value);
+        }
+    }
+}

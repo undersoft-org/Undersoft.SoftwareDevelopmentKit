@@ -1,0 +1,133 @@
+﻿using Microsoft.EntityFrameworkCore.ChangeTracking;
+using Undersoft.SDK.Service.Data.Cache;
+using System.Collections;
+using System.Linq.Expressions;
+
+namespace Undersoft.SDK.Service.Data.Repository;
+
+using Pagination;
+using Undersoft.SDK;
+using Undersoft.SDK.Service.Data.Object;
+using Undersoft.SDK.Service.Data.Repository.Client;
+using Undersoft.SDK.Service.Data.Repository.Source;
+
+public abstract partial class Repository<TEntity> : Repository, IPagedSet<TEntity>, IRepository<TEntity> where TEntity : class, IOrigin, IInnerProxy
+{
+    protected IDataCache cache;
+    protected IQueryable<TEntity> query;
+
+    public Repository()
+    {
+        ElementType = typeof(TEntity).GetDataType();
+        Expression = Expression.Constant(this);
+    }
+
+    public Repository(IRepositoryClient repositorySource) : base(repositorySource)
+    {
+        ElementType = typeof(TEntity).GetDataType();
+        Expression = Expression.Constant(this.AsEnumerable());
+    }
+
+    public Repository(IRepositorySource repositorySource) : base(repositorySource)
+    {
+        ElementType = typeof(TEntity).GetDataType();
+        Expression = Expression.Constant(this.AsEnumerable());
+    }
+
+    public Repository(object context) : base(context)
+    {
+        ElementType = typeof(TEntity).GetDataType();
+        Expression = Expression.Constant(this.AsEnumerable());
+    }
+
+    public Repository(IRepositoryContext context) : base(context)
+    {
+        ElementType = typeof(TEntity).GetDataType();
+        Expression = Expression.Constant(this.AsEnumerable());
+    }
+
+    public Repository(IQueryProvider provider, Expression expression)
+    {
+        ElementType = typeof(TEntity).GetDataType();
+        Provider = provider;
+        Expression = expression;
+    }
+
+    public bool HasNextPage { get; set; }
+
+    public bool HasPreviousPage { get; set; }
+
+    public int IndexFrom { get; set; }
+
+    public IList<TEntity> Items { get; set; }
+
+    public int PageIndex { get; set; }
+
+    public int PageSize { get; set; }
+
+    public int TotalCount { get; set; }
+
+    public int TotalPages { get; set; }
+
+    IEnumerator IEnumerable.GetEnumerator()
+    {
+        return GetEnumerator();
+    }
+
+    public abstract IQueryable<TEntity> AsQueryable();
+
+    public IEnumerator<TEntity> GetEnumerator()
+    {
+        return Provider.Execute<IQueryable<TEntity>>(Expression).GetEnumerator();
+    }
+
+    public override void LinkTrigger(object sender, EntityEntryEventArgs e)
+    {
+        EntityEntry entry = e.Entry;
+        object entity = entry.Entity;
+        Type type = entity.GetDataType();
+
+        if (type == ElementType)
+        {
+            RemoteObjects.DoEach(async (o) => await o.LoadAsync(entity));
+        }
+    }
+
+    public T Sign<T>(T entity) where T : IUniqueIdentifiable
+    {
+        entity.Sign();
+        cache?.MemorizeAsync(entity);
+        return entity;
+    }
+
+    public T Stamp<T>(T entity) where T : IUniqueIdentifiable
+    {
+        entity.Stamp();
+        cache?.MemorizeAsync(entity);
+        return entity;
+    }
+
+    public TEntity Sign(TEntity entity)
+    {
+        entity.Sign(entity);
+        cache?.MemorizeAsync(entity);
+        return entity;
+    }
+
+    public TEntity Stamp(TEntity entity)
+    {
+        entity.Stamp(entity);
+        cache?.MemorizeAsync(entity);
+        return entity;
+    }
+
+    public abstract IQueryable<TEntity> Query { get; }
+}
+
+public enum RelatedType
+{
+    None = 0,
+    Reference = 1,
+    Collection = 2,
+    Any = 3
+}
