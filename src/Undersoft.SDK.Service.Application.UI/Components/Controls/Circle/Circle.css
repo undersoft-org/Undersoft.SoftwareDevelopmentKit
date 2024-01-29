@@ -1,0 +1,47 @@
+﻿.circle {
+    display: inline-block;
+    position: relative;
+}
+
+.circle-progress {
+    transition: stroke-dashoffset .3s linear;
+}
+
+.circle-primary {
+    stroke: var(--bs-primary);
+}
+
+.circle-danger {
+    stroke: var(--bs-danger);
+}
+
+.circle-success {
+    stroke: var(--bs-success);
+}
+
+.circle-warning {
+    stroke: var(--bs-warning);
+}
+
+.circle-info {
+    stroke: var(--bs-info);
+}
+
+.circle-secondary {
+    stroke: var(--bs-secondary);
+}
+
+.circle-dark {
+    stroke: var(--bs-dark);
+}
+
+.circle-body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+}

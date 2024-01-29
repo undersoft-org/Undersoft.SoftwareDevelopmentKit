@@ -1,0 +1,27 @@
+﻿@namespace Undersoft.SDK.Service.Application.Components
+@typeparam TModel
+@inherits DialogBase<TModel>
+@attribute [JSModuleAutoLoader("./_content/BootstrapBlazor/Components/Dialog/EditDialog.razor.js", Relative = false, AutoInvokeInit = false, AutoInvokeDispose = false)]
+
+<ValidateForm Model="@Model" OnValidSubmit="@OnValidSubmitAsync" DisableAutoSubmitFormByEnter="@DisableAutoSubmitFormByEnter">
+    @if (BodyTemplate != null)
+    {
+        <div class="form-body">
+            @BodyTemplate(Model)
+        </div>
+        <div class="form-footer">
+            @RenderFooter
+        </div>
+    }
+    else
+    {
+        <EditorForm TModel="TModel" Items="Items" ItemChangedType="ItemChangedType" ItemsPerRow="ItemsPerRow" RowType="RowType" LabelAlign="LabelAlign" ShowLabel="ShowLabel" ShowUnsetGroupItemsOnTop="ShowUnsetGroupItemsOnTop">
+            <Buttons>
+                @RenderFooter
+            </Buttons>
+        </EditorForm>
+    }
+    <div class="form-loader fade" id="@Id">
+        <Spinner Color="Color.Primary" />
+    </div>
+</ValidateForm>

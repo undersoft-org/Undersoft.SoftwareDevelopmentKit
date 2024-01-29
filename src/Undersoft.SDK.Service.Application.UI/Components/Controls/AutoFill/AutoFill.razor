@@ -1,0 +1,34 @@
+﻿@namespace Undersoft.SDK.Service.Application.Components
+@typeparam TValue
+@inherits BootstrapInputBase<TValue>
+
+@if (IsShowLabel)
+{
+    <BootstrapLabel required="@Required" for="@Id" ShowLabelTooltip="ShowLabelTooltip" Value="@DisplayText" />
+}
+<div class="@ClassString" @ref="AutoFillElement">
+    <input @attributes="AdditionalAttributes" class="@ClassName" autocomplete="off" type="@Type" placeholder="@PlaceHolder" @bind-value="@InputString" @bind-value:event="oninput" @onblur="OnBlur" @onkeyup="OnKeyUp" @onfocus="OnFocus" @ref="FocusElement" />
+    <i class="@Icon"></i>
+    <ul class="@DropdownMenuClassString">
+        @if (FilterItems.Any())
+        {
+            foreach (var item in FilterItems)
+            {
+                <li class="dropdown-item" @onmousedown="e => OnClickItem(item)">
+                    @if (Template != null)
+                    {
+                        @Template(item)
+                    }
+                    else
+                    {
+                        <div>@OnGetDisplayText(item)</div>
+                    }
+                </li>
+            }
+        }
+        else
+        {
+            <li class="dropdown-item">@NoDataTip</li>
+        }
+    </ul>
+</div>

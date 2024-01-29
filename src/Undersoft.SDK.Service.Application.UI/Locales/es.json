@@ -1,0 +1,15 @@
+﻿{
+  "Undersoft.SDK.Blazor.Components.BarcodeReader": {
+    "ButtonScanText": "Escanear",
+    "ButtonStopText": "Cerrar",
+    "AutoStopText": "Cerrar.Autom.",
+    "DeviceLabel": "Cámara",
+    "InitDevicesString": "Inicializar ...",
+    "NotFoundDevicesString": "No se encontraron dispositivos"
+  },
+  "Undersoft.SDK.Blazor.Components.QRCode": {
+    "PlaceHolder": "Escribelo ...",
+    "ClearButtonText": "Limpio",
+    "GenerateButtonText": "Generar"
+  }
+}

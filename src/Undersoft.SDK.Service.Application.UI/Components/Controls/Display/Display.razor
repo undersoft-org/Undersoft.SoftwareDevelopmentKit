@@ -1,0 +1,9 @@
+﻿@namespace Undersoft.SDK.Service.Application.Components
+@typeparam TValue
+@inherits DisplayBase<TValue>
+
+@if (IsShowLabel)
+{
+    <BootstrapLabel class="is-display" ShowLabelTooltip="ShowLabelTooltip" Value="@DisplayText" />
+}
+<div @attributes="AdditionalAttributes" class="@ClassString">@CurrentTextAsString</div>

@@ -1,0 +1,75 @@
+﻿[
+  {
+    "outputFileName": "wwwroot/css/service.application.bundle.min.css",
+    "inputFiles": [
+      "wwwroot/core/bootstrap/css/bootstrap.min.css",
+      "wwwroot/lib/**/*.min.css",
+      "Components/**/*.css",
+      "wwwroot/src/css/service.application.css"
+    ]
+  },
+  {
+    "outputFileName": "wwwroot/css/motronic.min.css",
+    "inputFiles": [ "wwwroot/src/css/motronic.css" ]
+  },
+  {
+    "outputFileName": "wwwroot/bundle/service.application.js",
+    "inputFiles": [
+      "wwwroot/lib/extensions/*.js",
+      "Components/**/!(*.razor).js"
+    ],
+    "minify": {
+      "enabled": false,
+      "renameLocals": true
+    }
+  },
+  {
+    "outputFileName": "wwwroot/bundle/service.application.min.js",
+    "inputFiles": [
+      "wwwroot/bundle/service.application.js"
+    ],
+    "minify": {
+      "enabled": true,
+      "renameLocals": true
+    }
+  },
+  {
+    "outputFileName": "wwwroot/js/service.application.bundle.js",
+    "inputFiles": [
+      "wwwroot/core/jquery/jquery-3.5.1.js",
+      "wwwroot/core/bootstrap/js/bootstrap.bundle.js",
+      "wwwroot/bundle/service.application.js"
+    ],
+    "minify": {
+      "enabled": false,
+      "renameLocals": true
+    }
+  },
+  {
+    "outputFileName": "wwwroot/js/service.application.bundle.min.js",
+    "inputFiles": [
+      "wwwroot/core/jquery/jquery-3.5.1.min.js",
+      "wwwroot/core/bootstrap/js/bootstrap.bundle.min.js",
+      "wwwroot/bundle/service.application.min.js"
+    ],
+    "minify": {
+      "enabled": false,
+      "renameLocals": true
+    }
+  },
+  {
+    "outputFileName": "wwwroot/css/font-awesome.min.css",
+    "inputFiles": [
+      "wwwroot/fa/*.min.css",
+      "Components/**/*.css"
+    ]
+  },
+  {
+    "outputFileName": "wwwroot/css/service.application.markdown.min.css",
+    "inputFiles": [
+      "wwwroot/lib/**/*.min.css",
+      "Components/**/*.css"
+    ]
+  }
+
+]

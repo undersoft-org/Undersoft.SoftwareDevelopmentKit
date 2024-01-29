@@ -1,0 +1,10 @@
+﻿@namespace Undersoft.SDK.Service.Application.Components
+@inherits NavBase
+
+<nav @attributes="@AdditionalAttributes" class="@ClassString">
+    @foreach (var item in Items)
+    {
+        @Render(item)
+    }
+    @ChildContent
+</nav>
