@@ -1,9 +1,0 @@
-﻿@namespace Undersoft.SDK.Service.Application.Components
-@inherits Component
-@inject SwalService Swal
-
-<div class="swal">
-    <Modal @ref="ModalContainer" IsKeyboard="false" OnCloseAsync="OnCloseAsync">
-        @RenderDialog()
-    </Modal>
-</div>
