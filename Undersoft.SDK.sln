@@ -11,7 +11,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Undersoft.SDK.Service.Appli
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Undersoft.SDK.Service.Application.Server", "src\Undersoft.SDK.Service.Application.Server\Undersoft.SDK.Service.Application.Server.csproj", "{B11F903C-3C5A-4EBE-ABB4-6AD71AE90485}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Undersoft.SDK.Service.Application.UI", "src\Undersoft.SDK.Service.Application.UI\Undersoft.SDK.Service.Application.UI.csproj", "{42246A62-D825-42CF-8BA1-15BDDE4C9312}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Undersoft.SDK.Service.Application.GUI", "src\Undersoft.SDK.Service.Application.GUI\Undersoft.SDK.Service.Application.GUI.csproj", "{42246A62-D825-42CF-8BA1-15BDDE4C9312}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Undersoft.SDK.Service.Infrastructure", "src\Undersoft.SDK.Service.Infrastructure\Undersoft.SDK.Service.Infrastructure.csproj", "{18A54028-6E25-479A-861E-676640EA86D4}"
 EndProject
