@@ -1,0 +1,150 @@
+﻿@using System.ComponentModel.DataAnnotations
+@using Undersoft.SDK.Instant.Proxies
+@using Undersoft.SDK.Instant.Rubrics
+@using Undersoft.SDK
+
+@typeparam TModel where TModel : class, IOrigin, IInnerProxy
+
+<div>
+    @if (_type.IsPrimitive)
+    {
+        @if (_type.IsAssignableTo(typeof(long)))
+        {
+            <div>
+                <FluentNumberField Id="@id" Name="@name" @bind-Value="@data" Label="@displayName" Required="@required" />
+            </div>
+        }
+        else if (_type.IsAssignableTo(typeof(DateTime)))
+        {
+            <div>
+                <FluentDatePicker Id="@id" Name="@name" @bind-Value="@timeValue" Label="@displayName" Required="@required" />
+            </div>
+        }
+        else if (_type.IsAssignableTo(typeof(bool)))
+        {
+            <div>
+                <FluentCheckbox Id="@id" Name="@name" @bind-Value="@boolValue" Label="@displayName" Required="@required" />
+            </div>
+        }
+        else
+        {
+            <div>
+                <FluentTextField Id="@id" Name="@name" @bind-Value="@textValue" Label="@displayName" TextFieldType="@textFieldType" InputMode="@inputMode" Required="@required" />
+            </div>
+        }
+        <div>
+            <FluentValidationMessage For="@(() => data)" />
+        </div>
+    }
+    else if (_type == typeof(string) || _type.IsAssignableTo(typeof(IFormattable)))
+    {
+        <div>
+            <FluentTextField Id="@id" Name="@name" @bind-Value="@textValue" Label="@displayName" TextFieldType="@textFieldType" InputMode="@inputMode" Required="@required" />
+            <FluentValidationMessage For="@(() => data)" />
+        </div>
+    }
+</div>
+
+@code
+{
+    private Type _type = default!;
+
+    private IProxy _proxy = default!;
+
+    private int _index;
+
+    protected override void OnInitialized()
+    {
+        _type = Rubric.RubricType;
+        _proxy = Model.Data.Proxy;
+        _index = Rubric.RubricId;
+        id = $"{Rubric.RubricName}-{_index.ToString()}";
+
+        name = Rubric.RubricName;
+        if (Rubric.DisplayName != null)
+            displayName = Rubric.DisplayName;
+        else
+            displayName = Rubric.RubricName;
+        required = Rubric.Required;
+
+        inputMode = GetInputMode();
+        textFieldType = GetTexType();
+    }
+
+    [CascadingParameter]
+    public IGenericData<TModel> Model { get; set; } = default!;
+
+    [Parameter]
+    public IRubric Rubric { get; set; } = default!;
+
+    protected string id = default!;
+
+    protected string name { get; set; } = "";
+
+    protected string? displayName { get; set; }
+
+    protected bool required { get; set; }
+
+    protected InputMode inputMode { get; set; } = InputMode.None;
+
+    protected TextFieldType textFieldType { get; set; } = TextFieldType.Text;
+
+    protected object? data
+    {
+        get { return _proxy[_index]; }
+        set { _proxy[_index] = value; }
+    }
+
+    protected string? textValue
+    {
+        get { return data?.ToString(); }
+        set { data = value; }
+    }
+
+    protected DateTime? timeValue
+    {
+        get { return (DateTime?)data; }
+        set { data = value; }
+    }
+
+    protected bool boolValue
+    {
+        get
+        {
+            if (data != null)
+                return (bool)data;
+            return false;
+        }
+        set
+        {
+            data = value;
+        }
+    }
+
+    private InputMode GetInputMode()
+    {
+        if (name.ToLower().Contains("phone"))
+            return InputMode.Telephone;
+        if (name.ToLower().Contains("search"))
+            return InputMode.Search;
+        if (name.ToLower().Contains("url"))
+            return InputMode.Url;
+        if(_type.IsAssignableTo(typeof(decimal)))
+            return InputMode.Decimal;
+        return InputMode.Text;
+    }
+
+    private TextFieldType GetTexType()
+    {
+        if (name.ToLower().Contains("passw"))
+            return TextFieldType.Password;
+        if (name.ToLower().Contains("email"))
+            return TextFieldType.Email;
+        if (name.ToLower().Contains("phone"))
+            return TextFieldType.Tel;
+        if (name.ToLower().Contains("url"))
+            return TextFieldType.Url;
+        return TextFieldType.Text;        
+    }
+
+}

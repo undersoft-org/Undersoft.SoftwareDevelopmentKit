@@ -1,0 +1,42 @@
+﻿@using System.ComponentModel.DataAnnotations
+@using Undersoft.SDK.Instant.Proxies
+@using Undersoft.SDK.Instant.Rubrics
+@using Undersoft.SDK
+
+@typeparam TModel where TModel : class, IOrigin, IInnerProxy
+
+<div class="generics generic-form forms">
+    <EditForm EditContext="@Context" FormName="generic_form">
+        <DataAnnotationsValidator />
+        <CascadingValue Value="@Model">
+            <FluentStack Orientation="Orientation.Vertical" HorizontalAlignment="HorizontalAlignment.Center" VerticalAlignment="VerticalAlignment.Center" VerticalGap="20">
+                @foreach (var _rubric in _rubrics.Where(r => r.Visible))
+                {
+                    <!-- Auto Field -->
+                    <GenericField TModel="TModel" Rubric="@_rubric" />
+                }
+            </FluentStack>
+        </CascadingValue>
+        <div style="color: var(--error);">
+            <FluentValidationSummary />
+        </div>
+    </EditForm>
+</div>
+
+@code {
+    private IRubrics _rubrics => _proxy.Rubrics;
+    private IProxy _proxy => Model.Data.Proxy;
+
+    protected override void OnInitialized()
+    {
+        if (Context == null)
+            Context = new EditContext(Model);
+    }
+
+    [Parameter]
+    public EditContext Context { get; set; } = default!;
+
+    [Parameter]
+    public IGenericData<TModel> Model { get; set; } = default!;
+}
+
